@@ -1,0 +1,2 @@
+steam[client]
+requests==2.27.1
