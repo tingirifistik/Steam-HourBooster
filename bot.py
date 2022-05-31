@@ -132,7 +132,7 @@ while 1:
         
         elif text == "/help" and date not in date_list:
             date_list.append(date)
-            sendMessage("/config --> Steam kullanıcı adı ve parola ve saat arttırmak istediğiniz oyunları kaydeder.\n\n/run --> Saat arttırma işlemine başlar.", id)
+            sendMessage("/config --> Steam kullanıcı adı, parola ve saatini arttırmak istediğiniz oyunları kaydeder.\n\n/run --> Saat arttırma işlemine başlar.", id)
         
         elif text != "/config" and text != "/run" and text != "/start" and text != "/help" and date not in date_list:
             date_list.append(date)
