@@ -1,6 +1,6 @@
 from steam.client import SteamClient
 import requests
-from threading import Thread
+# from threading import Thread
 from os import environ
 
 token = environ.get("TOKEN")
@@ -20,9 +20,9 @@ def getUpdate():
 def sendMessage(text, id):
     requests.get(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={id}&text=" + text, timeout=3)
     
-def boost():
-    client.games_played(oyunID)
-    client.run_forever()
+# def boost():
+#     client.games_played(oyunID)
+#     client.run_forever()
 
 date_list = []
 while 1:
@@ -95,7 +95,8 @@ while 1:
                                 break
                             elif str(account_login) == "EResult.OK":
                                 sendMessage("Başarıyla giriş yaptınız. Oyunlar çalışıyor..", id)
-                                Thread(target=boost).start()
+                                client.games_played(oyunID)
+                                client.run_forever()
                                 break
                             elif str(account_login) == "EResult.TwoFactorCodeMismatch":
                                 sendMessage('Yanlış guard kodu!\nYeniden deneyiniz.', id)
@@ -112,7 +113,8 @@ while 1:
                                 break
                             elif str(account_login) == "EResult.OK":
                                 sendMessage("Başarıyla giriş yaptınız. Oyunlar çalışıyor..", id)
-                                Thread(target=boost).start()
+                                client.games_played(oyunID)
+                                client.run_forever()
                                 break
                             elif str(account_login) == "EResult.InvalidLoginAuthCode":
                                 sendMessage('Yanlış Guard kodu!\nYeniden deneyiniz.', id)
@@ -120,7 +122,8 @@ while 1:
                 elif str(account_login) == "EResult.InvalidPassword":
                     sendMessage("Yanlış parola!\n'/config' komutu ile parolanızı düzenleyin." , id)
                 elif str(account_login) == "EResult.OK":
-                    Thread(target=boost).start()
+                    client.games_played(oyunID)
+                    client.run_forever()
                 else:
                     sendMessage("Hata: " + str(account_login), id)        
             except FileNotFoundError:
