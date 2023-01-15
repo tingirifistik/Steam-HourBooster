@@ -31,17 +31,17 @@ while 1:
     
         if text == "/config" and date not in date_list:
             date_list.append(date)
-            sendMessage("Kullanıcı adınızı ve parolanızı arasında iki nokta olacak şekilde gonderiniz.\n\nÖrnek: kralali01:31mizAh31", id)
+            sendMessage("Please enter your username and password with a colon between them.\n\nExample: kralali01:31mizAh31", id)
             while 1:
                 id, text, date = getUpdate()
                 gecici = text
                 if ":" in text:
-                    sendMessage(f"{text}  -->  Kullanıcı adın ve parolan doğru mu?(Doğruysa 'evet', değilse herhangi bir şey yazınız.)", id)
+                    sendMessage(f"{text}  -->  Is the username and password correct? (If yes, type 'yes', if not, press 'enter')", id)
                     while 1:
                         id, text, date = getUpdate()
-                        if text == "evet" or text == "Evet":
+                        if text == "yes" or text == "Yes":
                             login = gecici
-                            sendMessage("Oyunların ID'sini arasında virgül olacak şekilde yazınız.\n\nÖrnek:  730,302080,359550", id)
+                            sendMessage("Please enter the ID's of the games separated by commas.\n\nExample: 730,302080,359550", id)
                             while 1:
                                 id, text, date = getUpdate()
                                 if "," in text:
@@ -56,22 +56,22 @@ while 1:
                                             game_name = str(verify[str(i)]["data"]["name"])
                                             verified.append(int(i))
                                     if verified == []:
-                                        sendMessage("Oyun ID'leri doğru değil.\n\nLütfen tekrar deneyiniz.", id)
+                                        sendMessage("The game IDs are incorrect. Please try again.", id)
                                         break
                                     with open("config", "w", encoding="UTF-8") as file:
                                         file.write(f"{login}\n{str(verified)}")
                                         date_list.append(date)
-                                        sendMessage("Ayarlarınız başarıyla kaydedildi.", id)
+                                        sendMessage("Your settings have been saved successfully.", id)
                                     break
                             break
-                        elif text!= gecici and text != "evet" and text != "Evet":
+                        elif text!= gecici and text != "yes" and text != "Yes":
                             date_list.append(date)
-                            sendMessage("Ayarlar kaydedilmeden çıkıldı.", id)
+                            sendMessage("Settings were not saved.", id)
                             break    
                     break
                 elif text != "/config" and ":" not in text and date not in date_list:
                     date_list.append(date)
-                    sendMessage("Kullanıcı adınızı ve parolanızı arasında iki nokta olacak şekilde gonderiniz.\n\nÖrnek: kralali01:31mizAh31", id)
+                    sendMessage("Please enter your username and password with a colon between them.\n\nExample: kralali01:31mizAh31", id)
                     break
                 
         elif text == "/run" and date not in date_list:    
@@ -84,61 +84,61 @@ while 1:
                 password = login.split(":")[1]
                 account_login = client.login(username=username, password=password)
                 if str(account_login) == "EResult.AccountLoginDeniedNeedTwoFactor":
-                    sendMessage("Steam Guard kodunu yazınız.", id)
+                    sendMessage("Please enter your Steam Guard code.", id)
                     while 1:
                         id, text, date = getUpdate()
                         if text != "/run":
                             date_list.append(date)
                             account_login = client.login(username=username, password=password, two_factor_code=text)
                             if str(account_login) == "EResult.InvalidPassword":
-                                sendMessage("Yanlış parola!\n'/config' komutu ile parolanızı düzenleyin." , id)
+                                sendMessage("Wrong password!\nEdit your password with the '/config' command." , id)
                                 break
                             elif str(account_login) == "EResult.OK":
-                                sendMessage("Başarıyla giriş yaptınız. Oyunlar çalışıyor..", id)
+                                sendMessage("You have successfully logged in. Games are running.", id)
                                 client.games_played(oyunID)
                                 client.run_forever()
                                 break
                             elif str(account_login) == "EResult.TwoFactorCodeMismatch":
-                                sendMessage('Yanlış guard kodu!\nYeniden deneyiniz.', id)
+                                sendMessage('Incorrect guard code!\nPlease try again.', id)
                                 break
                 elif str(account_login) == "EResult.AccountLogonDenied":
-                    sendMessage("Mailinize gelen Steam Guard kodunu yazınız.", id)
+                    sendMessage("Please enter the Steam Guard code sent to your email.", id)
                     while 1:
                         id, text, date = getUpdate()
                         if text != "/run":
                             date_list.append(date)
                             account_login = client.login(username=username, password=password, auth_code=text)
                             if str(account_login) == "EResult.InvalidPassword":
-                                sendMessage("Yanlış parola!\n'/config' komutu ile parolanızı düzenleyin." , id)
+                                sendMessage("Wrong password!\nEdit your password with the '/config' command." , id)
                                 break
                             elif str(account_login) == "EResult.OK":
-                                sendMessage("Başarıyla giriş yaptınız. Oyunlar çalışıyor..", id)
+                                sendMessage("You have successfully logged in. Games are running..", id)
                                 client.games_played(oyunID)
                                 client.run_forever()
                                 break
                             elif str(account_login) == "EResult.InvalidLoginAuthCode":
-                                sendMessage('Yanlış Guard kodu!\nYeniden deneyiniz.', id)
+                                sendMessage('Incorrect guard code!\nPlease try again.', id)
                                 break
                 elif str(account_login) == "EResult.InvalidPassword":
-                    sendMessage("Yanlış parola!\n'/config' komutu ile parolanızı düzenleyin." , id)
+                    sendMessage("Wrong password!\nEdit your password with the '/config' command." , id)
                 elif str(account_login) == "EResult.OK":
                     client.games_played(oyunID)
                     client.run_forever()
                 else:
                     sendMessage("Hata: " + str(account_login), id)        
             except FileNotFoundError:
-                sendMessage("'/config' komutunu kullanarak parolanızı ve kullanıcı adınızı yazınız.", id)  
+                sendMessage("Enter your username and password by using the '/config' command.", id)  
 
         elif text == "/start" and date not in date_list:
             date_list.append(date)
-            sendMessage("Merhaba,\nBu bot Steam'de bulunan oyunlarınızın saatini arttırır.\nNasıl kullanıldığını öğrenmek için '/help' yazınız.", id)
+            sendMessage("Hello,\nThis bot increases the hours played of games on Steam.\nType '/help' to learn how to use it.", id)
         
         elif text == "/help" and date not in date_list:
             date_list.append(date)
-            sendMessage("/config --> Steam kullanıcı adı, parola ve saatini arttırmak istediğiniz oyunları kaydeder.\n\n/run --> Saat arttırma işlemine başlar.", id)
+            sendMessage("/config --> Saves your Steam username, password, and the games you want to increase hours played.\n\n/run --> Begins the process of increasing hours played.", id)
         
         elif text != "/config" and text != "/run" and text != "/start" and text != "/help" and date not in date_list:
             date_list.append(date)
-            sendMessage("Yazdığınızı anlayamadım.\n\nKomutları görmek için '/help' yazınız.", id)
+            sendMessage("I did not understand what you wrote.\n\nType '/help' to see the commands.", id)
     except:
         pass
