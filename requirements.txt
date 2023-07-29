@@ -1,2 +1,2 @@
-steam[client]
-requests==2.27.1
+python-telegram-bot==20.4
+steam==1.4.4
