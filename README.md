@@ -11,11 +11,7 @@
 git clone https://github.com/tingirifistik/HourBooster.git
 cd HourBooster
 pip3 install -r requirements.txt
-python3 bot.py
+python3 HourBooster.py
 ```
-### Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tingirifistik/HourBooster)
-
 
 My Steam Profile: https://steamcommunity.com/id/tingirifistik/
