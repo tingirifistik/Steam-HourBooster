@@ -6,39 +6,39 @@ from os import getenv
 TOKEN = getenv("token")
 USERNAME, PASSWORD, GAME = 0, 1, 2
 GUARD, MAIL = 0, 1
-
 client = SteamClient()
 
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(f"Hello,\nThis bot increases the hours played of games on Steam\.\nType *_/help_* to learn how to use it\.\n\n[_Source Code_](https://github.com/tingirifistik/Steam-HourBooster)\n[_Twitter_](https://twitter.com/_tingirifistik)", parse_mode='MarkdownV2')
+    await update.message.reply_text(f"Hello,\nThis bot increases the hours played of games on Steam\\.\nType *_/help_* to learn how to use it\\.\n\n[_Source Code_](https://github.com/tingirifistik/Steam-HourBooster)\n[_Twitter_](https://twitter.com/_tingirifistik)", parse_mode='MarkdownV2')
 
 async def help_command(update: Update, conext: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(f"*_/config_* \-\-\> Saves your Steam username, password, and the games you want to increase hours played\.\n\n*_/run_* \-\-\> Begins the process of increasing hours played\.", parse_mode='MarkdownV2')
+    await update.message.reply_text("*_/config_* \\-\\-\\> Saves your Steam username, password, and the games you want to increase hours played\\.\n\n*_/run_* \\-\\-\\> Begins the process of increasing hours played\\.", parse_mode='MarkdownV2')
     
 async def what(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("I couldn't understand what you wrote.")
 
-
 async def run(update: Update, context: CallbackContext) -> None:
-    with open("config", "r", encoding="UTF-8") as f:
-        r = f.read()
-        global username, password, games
-        username, password, games = r.split(":")[0], r.split(":")[1].split("\n")[0], r.split("\n")[1].split(",")
-    account_login = client.login(username=username, password=password)
-    if str(account_login) == "85":
-        await update.message.reply_text("Please enter your Steam Guard code.")
-        return GUARD
-    elif str(account_login) == "84":
-        await update.message.reply_text("Please enter the Steam Guard code sent to your email.")
-        return MAIL
-    elif str(account_login) == "1":
-        await update.message.reply_text("You have successfully logged in. Games are running.")
-        client.games_played(games)
-        client.run_forever()
-    else:
-        await update.message.reply_text(f"Error Code: {str(account_login)}")
-        return ConversationHandler.END
+    try:
+        with open("config", "r", encoding="UTF-8") as f:
+            r = f.read()
+            global username, password, games
+            username, password, games = r.split(":")[0], r.split(":")[1].split("\n")[0], r.split("\n")[1].split(",")
+        account_login = client.login(username=username, password=password)
+        if str(account_login) == "85":
+            await update.message.reply_text("Please enter your Steam Guard code.")
+            return GUARD
+        elif str(account_login) == "84":
+            await update.message.reply_text("Please enter the Steam Guard code sent to your email.")
+            return MAIL
+        elif str(account_login) == "1":
+            await update.message.reply_text("You have successfully logged in. Games are running.")
+            client.games_played(games)
+            client.run_forever()
+        else:
+            await update.message.reply_text(f"Error Code: {str(account_login)}")
+            return ConversationHandler.END
+    except FileNotFoundError:
+        await update.message.reply_text("Save config file first!")
     
 async def guard(update: Update, context: CallbackContext) -> None:
     guard_code = update.message.text
@@ -61,7 +61,6 @@ async def mail(update: Update, context: CallbackContext) -> None:
     else:
         await update.message.reply_text("The verification code is wrong!")
         return ConversationHandler.END
-
 
 async def config(update: Update, context: CallbackContext) -> int:
     await update.message.reply_text("Enter your Steam username..")
