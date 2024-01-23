@@ -27,7 +27,7 @@ async def run(update: Update, context: CallbackContext) -> None:
         if account_login == 85:
             await update.message.reply_text("Please enter your Steam Guard code.")
             return GUARD
-        elif account_login == 84:
+        elif account_login == 63:
             await update.message.reply_text("Please enter the Steam Guard code sent to your email.")
             return MAIL
         elif account_login == 1:
