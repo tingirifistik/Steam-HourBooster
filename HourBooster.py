@@ -1,4 +1,4 @@
-from steam.client import SteamClient
+from steam.client import SteamClient, EResult
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext, ConversationHandler
 from os import getenv
@@ -24,13 +24,13 @@ async def run(update: Update, context: CallbackContext) -> None:
             global username, password, games
             username, password, games = r.split(":")[0], r.split(":")[1].split("\n")[0], r.split("\n")[1].split(",")
         account_login = client.login(username=username, password=password)
-        if str(account_login) == "85":
+        if account_login == 85:
             await update.message.reply_text("Please enter your Steam Guard code.")
             return GUARD
-        elif str(account_login) == "84":
+        elif account_login == 84:
             await update.message.reply_text("Please enter the Steam Guard code sent to your email.")
             return MAIL
-        elif str(account_login) == "1":
+        elif account_login == 1:
             await update.message.reply_text("You have successfully logged in. Games are running.")
             client.games_played(games)
             client.run_forever()
@@ -43,7 +43,7 @@ async def run(update: Update, context: CallbackContext) -> None:
 async def guard(update: Update, context: CallbackContext) -> None:
     guard_code = update.message.text
     account_login = client.login(username=username, password=password, two_factor_code=guard_code)
-    if str(account_login) == "1":
+    if account_login == 1:
         await update.message.reply_text("You have successfully logged in. Games are running.")
         client.games_played(games)
         client.run_forever()
@@ -54,7 +54,7 @@ async def guard(update: Update, context: CallbackContext) -> None:
 async def mail(update: Update, context: CallbackContext) -> None:
     mail_code = update.message.text
     account_login = client.login(username=username, password=password, auth_code=mail_code)
-    if str(account_login) == "1":
+    if account_login == 1:
         await update.message.reply_text("You have successfully logged in. Games are running.")
         client.games_played(games)
         client.run_forever()
