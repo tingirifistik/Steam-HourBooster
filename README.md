@@ -1,6 +1,4 @@
 # HourBooster
-[![Github Stars](https://img.shields.io/github/stars/tingirifistik/HourBooster)]()
-[![Github Forks](https://img.shields.io/github/forks/tingirifistik/HourBooster)]()
 [![Hits](https://hits.sh/github.com/tingirifistik/HourBooster.svg?label=views&color=007ec6)](https://hits.sh/github.com/tingirifistik/HourBooster/)
 
 ### Game ID: [https://steamdb.info/search/](https://steamdb.info/search/)
